@@ -7,6 +7,17 @@
   - [4.3 Good comments](#43-good-comments)
     - [4.3.1 Legal comments](#431-legal-comments)
     - [4.3.2 Informative comments](#432-informative-comments)
+    - [4.3.3 Explanation of intent](#433-explanation-of-intent)
+    - [4.3.4 Clarification](#434-clarification)
+    - [4.3.5 Warning of consequences](#435-warning-of-consequences)
+    - [4.3.6 TODO comments](#436-todo-comments)
+  - [4.4 Amplification](#44-amplification)
+  - [4.5 ~~Javadocs~~ Jsdocs in public APIs](#45-javadocs-jsdocs-in-public-apis)
+  - [4.6 Bad comments](#46-bad-comments)
+  - [4.7 Mumbling](#47-mumbling)
+  - [4.8 Mandated comments](#48-mandated-comments)
+  - [4.8 Commented-out code](#48-commented-out-code)
+  - [4.9 Nonlocal information](#49-nonlocal-information)
 
 # Introduction
 I started reading this book prior to creating this repo hence why there are missing chapters. I'm continuing where I left off and will fill in the gaps eventually.
@@ -86,3 +97,96 @@ let timeMatcher: Pattern = Pattern.compile("\\d*:\\d*:\\d* \\w*, \\w* \\d*, \\d*
 ```
 
 In this case the comment lets us know that the regular expression is intended to match a time and date that were formatted using the specified format string. Still, it might have been better, and clearer, if this code had been moved to a special class that converted the formats of dates and times.
+
+### 4.3.3 Explanation of intent
+Commenting to explain your intent is fine. For example when you're facing more than one way to achieve your end goal, you may comment why you did it this way.
+
+### 4.3.4 Clarification
+Sometimes it is helpful to translate the meaning of some obscure argument or return value into something that's readable. Although it is better to find a way to make that argument or return value clear in it's own right; but when it's part of the standard library, or in code that you cannot alter, then a helpful clarifying comment can be useful.
+
+```js 
+assertTrue(a.compareTo(a) == 0); // a == a
+assertTrue(a.compareTo(b) != 0); // a != b
+assertTrue(a.compareTo(b) == -1); // a < b
+```
+
+There is a substantial risk that a clarifying comment is incorrect. Go through the previous example and see how difficult it is to verify that they are correct. So before writing comments like that, make sure that there is no better way, and then take even more care that they are accurate.
+
+### 4.3.5 Warning of consequences
+Sometimes it's useful to warn other programmers about certain consequences. Take for example this comment that explains why a particular test case is turned off:
+
+```ts
+public static function makeStandardHttpDateFormat(): SimpleDateFormat {
+  // SimpleDateFormat is not thread safe, so we need to create each instance independently.
+  const df: SimpleDateFormat = new SimpleDateFormat("EEE, dd MMM yyyy HH:mm:ss z");
+  df.setTimeZone(TimeZone.getTimeZone("GMT"));
+  return df;
+}
+```
+### 4.3.6 TODO comments
+A todo comment should explain why the function has a degenerate implementation and what the function's future should be.
+
+```ts
+/* 
+* TODO setting result is not needed
+* The function should return a + b only
+*/
+function getSum(a, b): number {
+  const result = a + b;
+  return result
+}
+```
+
+`TODO`s are jobs that the programmer thinks should be done, but for some reason can't do at the moment. It might be a reminder or a plea for someone else to look at the problem. Nowadays through extensions you can organize `TODO`s in a single place in your project. Still, don't litter your code with `TODO`s.
+
+## 4.4 Amplification
+A comment may be used to amplify the importance of something that may otherwise seem inconsequential.
+
+```ts
+let listItemContent: string = match.group(3).trim();
+// The trim is real important. It removes the starting spaces that could cause the item to be recognized as another list.
+new ListItemWidget(this, listItemContent, this.level + 1);
+return buildList(text.substring(match.end()));
+```
+
+## 4.5 ~~Javadocs~~ Jsdocs in public APIs
+If you are writing a public API, then you should certainly write good jsdocs for it. But keep in mind the rest of the advice in this chapter. Jsdocs can be just as misleading, nonlocal, and dishonest as any other kind of comment.
+
+## 4.6 Bad comments
+Most comments fall into this category. Usually they are crutches or excuses for poor code or justifications for insufficient decisions, amounting to little more than the programmer talking to himself.
+
+## 4.7 Mumbling
+Writing a comment just because you feel you should or because the process requires it, is a hack. If you decide to write one, then spend the time necessary to make it the best comment you can write.
+
+*See page 60 for a thorough explanation.*
+
+## 4.8 Mandated comments
+> "It is just plain silly to have a rule that says that every function must have a jsdoc, or every variable must have a comment. Comments like this just clutter up the code, propagate lies, and lend to general confusion and disorganization." - Robert C. Martin
+
+## 4.8 Commented-out code
+> "Few practices are as odious as commenting-out code. Don't do this!" - Robert C. Martin
+
+```js
+axios.get(url)
+  .then(response => this.setStudent(response))
+  // .then(response => console.log(response))
+  .catch(error => error)
+```
+
+Others who see that commented-out code won't have the courage to delete it. They'll think it is there for a reason and is too important to delete.
+
+## 4.9 Nonlocal information
+Make sure comments describe the code it appears near. Don't offer system wide information in the context of a local comment.
+
+```ts
+/**
+* Port on which the app would run. Defaults to 3000.
+*
+* @param port
+*/
+function setPort(port: number) {
+  this.port = port;
+}
+```
+
+The previous example has no knowing of the default port whatsoever
