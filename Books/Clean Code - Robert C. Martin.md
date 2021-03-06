@@ -11,13 +11,22 @@
     - [4.3.4 Clarification](#434-clarification)
     - [4.3.5 Warning of consequences](#435-warning-of-consequences)
     - [4.3.6 TODO comments](#436-todo-comments)
-  - [4.4 Amplification](#44-amplification)
-  - [4.5 ~~Javadocs~~ Jsdocs in public APIs](#45-javadocs-jsdocs-in-public-apis)
-  - [4.6 Bad comments](#46-bad-comments)
-  - [4.7 Mumbling](#47-mumbling)
-  - [4.8 Mandated comments](#48-mandated-comments)
-  - [4.8 Commented-out code](#48-commented-out-code)
-  - [4.9 Nonlocal information](#49-nonlocal-information)
+    - [4.3.7 Amplification](#437-amplification)
+    - [4.3.8 ~~Javadocs~~ Jsdocs in public APIs](#438-javadocs-jsdocs-in-public-apis)
+  - [4.4 Bad comments](#44-bad-comments)
+    - [4.4.1 Mumbling](#441-mumbling)
+    - [4.4.2 Redundant comments](#442-redundant-comments)
+    - [4.4.3 Misleading comments](#443-misleading-comments)
+    - [4.4.4 Mandated comments](#444-mandated-comments)
+    - [4.4.5 Journal comments](#445-journal-comments)
+    - [4.4.6 Noise comments](#446-noise-comments)
+    - [4.4.7 Scary noise](#447-scary-noise)
+    - [4.4.8 Position markers](#448-position-markers)
+    - [4.4.9 Closing brace comments](#449-closing-brace-comments)
+    - [4.4.10 Attributions and bylines](#4410-attributions-and-bylines)
+    - [4.4.11 Commented-out code](#4411-commented-out-code)
+    - [4.4.12 HTML comments](#4412-html-comments)
+    - [4.4.13 Nonlocal information](#4413-nonlocal-information)
 
 # Introduction
 I started reading this book prior to creating this repo hence why there are missing chapters. I'm continuing where I left off and will fill in the gaps eventually.
@@ -139,7 +148,7 @@ function getSum(a, b): number {
 
 `TODO`s are jobs that the programmer thinks should be done, but for some reason can't do at the moment. It might be a reminder or a plea for someone else to look at the problem. Nowadays through extensions you can organize `TODO`s in a single place in your project. Still, don't litter your code with `TODO`s.
 
-## 4.4 Amplification
+### 4.3.7 Amplification
 A comment may be used to amplify the importance of something that may otherwise seem inconsequential.
 
 ```ts
@@ -149,21 +158,36 @@ new ListItemWidget(this, listItemContent, this.level + 1);
 return buildList(text.substring(match.end()));
 ```
 
-## 4.5 ~~Javadocs~~ Jsdocs in public APIs
+### 4.3.8 ~~Javadocs~~ Jsdocs in public APIs
 If you are writing a public API, then you should certainly write good jsdocs for it. But keep in mind the rest of the advice in this chapter. Jsdocs can be just as misleading, nonlocal, and dishonest as any other kind of comment.
 
-## 4.6 Bad comments
+## 4.4 Bad comments
 Most comments fall into this category. Usually they are crutches or excuses for poor code or justifications for insufficient decisions, amounting to little more than the programmer talking to himself.
 
-## 4.7 Mumbling
+### 4.4.1 Mumbling
 Writing a comment just because you feel you should or because the process requires it, is a hack. If you decide to write one, then spend the time necessary to make it the best comment you can write.
 
 *See page 60 for a thorough explanation.*
 
-## 4.8 Mandated comments
+### 4.4.2 Redundant comments
+
+### 4.4.3 Misleading comments
+
+### 4.4.4 Mandated comments
 > "It is just plain silly to have a rule that says that every function must have a jsdoc, or every variable must have a comment. Comments like this just clutter up the code, propagate lies, and lend to general confusion and disorganization." - Robert C. Martin
 
-## 4.8 Commented-out code
+### 4.4.5 Journal comments
+
+### 4.4.6 Noise comments
+
+### 4.4.7 Scary noise
+
+### 4.4.8 Position markers
+
+### 4.4.9 Closing brace comments
+
+### 4.4.10 Attributions and bylines
+### 4.4.11 Commented-out code
 > "Few practices are as odious as commenting-out code. Don't do this!" - Robert C. Martin
 
 ```js
@@ -174,8 +198,9 @@ axios.get(url)
 ```
 
 Others who see that commented-out code won't have the courage to delete it. They'll think it is there for a reason and is too important to delete.
+### 4.4.12 HTML comments
 
-## 4.9 Nonlocal information
+### 4.4.13 Nonlocal information
 Make sure comments describe the code it appears near. Don't offer system wide information in the context of a local comment.
 
 ```ts
