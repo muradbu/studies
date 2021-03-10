@@ -33,7 +33,12 @@
     - [4.4.17 Function headers](#4417-function-headers)
     - [4.4.18 Jsdocs in nonpublic code](#4418-jsdocs-in-nonpublic-code)
     - [4.4.19 Example](#4419-example)
-  - [5.0 Formatting](#50-formatting)
+- [5.0 Formatting](#50-formatting)
+  - [5.1 The purpose of formatting](#51-the-purpose-of-formatting)
+  - [5.2 Vertical formatting](#52-vertical-formatting)
+    - [5.2.1 The newspaper metaphor](#521-the-newspaper-metaphor)
+    - [5.2.2 Vertical openness between concepts](#522-vertical-openness-between-concepts)
+    - [5.2.3 Vertical density](#523-vertical-density)
 
 # Introduction
 I started reading this book prior to creating this repo hence why there are missing chapters. I'm continuing where I left off and will fill in the gaps eventually.
@@ -357,5 +362,108 @@ this.pngBytes = new byte[((this.width + 1) * this.height * 3) + 200]
 ### 4.4.19 Example
 It's better to see this subchapter for yourself at page 71. Uncle Bob explains that he made an example of a badly coded class and challenges you to find the mistakes. He then follows up with a refactored version and his reasons why the comments in the refactored version are good.
 
-## 5.0 Formatting
+# 5.0 Formatting
 This is an interesting chapter that crossed my mind by coincidence while I was chaining a bunch of `.then`s vertically.
+
+## 5.1 The purpose of formatting
+Code formatting is important. Too important to ignore and too important to treat religiously. Code formatting is about communication, and communication is the professional developer's first order of business. By now it should be clear that the programmer's job is not to "get it to work", but to make your code maintainable because there is a high chance your code will change.
+
+## 5.2 Vertical formatting
+In this paragraph Uncle Bob compares the file sizes in lines of code of different open source projects. Seven different projects are deipicted. Junit, FitNesse, testNG, Time and Money, JDepend, Ant and Tomcat. The average file size in the FitNesse project is about 65 lines, and about one-third of the files are between 40 and 100+ lines. The largest file in FitNesse is about 400 files and the smallest is 6 lines.
+
+Junit, FitNesse and Time and Money are composed of relatively small files. None are over 500 lines and most of those files are less than 200 lines. Tomcat and Ant, on the other hand, have some files that are several thousand lines long and close to half are over 200 lines.
+
+**What does that mean to us?** It appears to be possible to build significant systems (FitNesse is close to 50,000 lines) out of files that are typically 200 lines long, with an upper limit of 500. Although this should not be a hard and fast rule, it should be considered very desireable. Smaller files are easier to read.
+
+### 5.2.1 The newspaper metaphor
+Think of a newspaper article. You read it vertically and it is composed as such:
+
+* A headline that will tell you what the story is *about* and allows you to decide whether it is something you *want* to read.
+* A synopsis of the whole story, hiding all the details while giving you the broad-brush concepts
+* As you further progress into the article the details increase
+
+Code should read like a newspaper article. The name by itself should indicate whether we are in the right module or not. The topmost part should provide the high-level concepts and algorithms. Details should increase as we move downward, until at the end we find the lowest level functions and details in the source files.
+
+**Key takeaway:** Your methods should be sorted by high to low level.
+
+### 5.2.2 Vertical openness between concepts
+Each line represents an expression or a clause, and each group of lines represents a complete thought. Those thoughts should be separated from each other with blank lines.
+
+```js
+class Cat {
+  constructor(name) {
+    this.name = name;
+  }
+
+  speak() {
+    console.log(`${this.name} makes a noise.`);
+  }
+}
+
+class Lion extends Cat {
+  speak() {
+    super.speak();
+    console.log(`${this.name} roars.`);
+  }
+}
+
+let l = new Lion('Fuzzy');
+l.speak();
+```
+
+Take out the blank lines and your code will have an obscuring effect:
+
+```js
+class Cat {
+  constructor(name) {
+    this.name = name;
+  }
+  speak() {
+    console.log(`${this.name} makes a noise.`);
+  }
+}
+class Lion extends Cat {
+  speak() {
+    super.speak();
+    console.log(`${this.name} roars.`);
+  }
+}
+let l = new Lion('Fuzzy');
+l.speak();
+```
+
+### 5.2.3 Vertical density
+Lines of code that are tightly related should appear vertically dense. Notice how the useless comments break the close association of the two instance variables.
+
+```ts
+class ReporterConfig {
+  
+  /**
+  * The class name of the reporter listener
+  */
+  private className: string;
+
+  /**
+  * The properties of the reporter listener
+  */
+  private properties: Array<Property>;
+
+  addProperty(property: Property): {
+    properties.push(property)
+  }
+}
+```
+
+The following is much easier to read. It fits in an "eye-full".
+
+```ts
+class ReporterConfig {
+  private className: string;
+  private properties: Array<Property>;
+
+  addProperty(property: Property): {
+    properties.push(property)
+  }
+}
+```
+
