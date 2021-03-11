@@ -39,6 +39,14 @@
     - [5.2.1 The newspaper metaphor](#521-the-newspaper-metaphor)
     - [5.2.2 Vertical openness between concepts](#522-vertical-openness-between-concepts)
     - [5.2.3 Vertical density](#523-vertical-density)
+    - [5.2.4 Vertical distance](#524-vertical-distance)
+      - [**Variable declarations**](#variable-declarations)
+      - [**Instance variables**](#instance-variables)
+      - [**Dependent functions**](#dependent-functions)
+        - [G35](#g35)
+      - [**Conceptual affinity**](#conceptual-affinity)
+    - [5.2.5 Vertical ordering](#525-vertical-ordering)
+  - [5.3 Horizontal formatting](#53-horizontal-formatting)
 
 # Introduction
 I started reading this book prior to creating this repo hence why there are missing chapters. I'm continuing where I left off and will fill in the gaps eventually.
@@ -467,3 +475,58 @@ class ReporterConfig {
 }
 ```
 
+### 5.2.4 Vertical distance
+Concepts that are closely related should be kept vertically close to each other [See G10 in the book]. This rule doesn't work for concepts that belong in separate files. But then closely related concepts should not be separated into different files unless you have a good reason. Uncle Bob explains that this is one of the reasons why protected variables should be avoided.
+
+> "For those concepts that are so closely related that they belong in the same source file, their vertical separation should be a measure of how important each is to the understandability of the other." - Uncle Bob
+
+What we want to avoid is forcing our readers to hop around through the source files and classes.
+
+#### **Variable declarations**
+* Local variables should appear at the top of each function.
+* Control variables (eg. `i` in a for-loop) should usually be declared within their respective statement.
+* In rare cases a variable might be declared at the top of a block or just before a loop in a long-ish function.
+
+#### **Instance variables**
+These should generally be at the top of the class, unless your team adheres to a different convention.
+
+#### **Dependent functions**
+If one function calls another, they should be vertically close, and the caller should be above the callee, if at all possible. This gives the program a natural flow. 
+
+##### G35
+If you have constants such as a default or configuration value that is known and expected at a high level of abstraction, do not bury it in a low-level function. Expose it as an argument to that low-level function called from the high-level function. Page 306 `G35: Keep configurable data at high levels` explains this neatly. It is worth it to read and understand the code example.
+
+#### **Conceptual affinity**
+Certain bits of code *want* to be near other bits. This affinity might be based on a direct dependence, such as one function calling another. But there are other possible causes for affinity, like when a group of functions perform a similar operation:
+
+```js
+class Assert {
+  assertTrue(message, condition) {
+    if (!condition) {
+      fail(message)
+    }
+  }
+
+  assertTrue(condition) {
+    assertTrue(null, condition)
+  }
+
+  assertFalse(message, condition) {
+    assertTrue(message, !condition)
+  }
+
+  assertFalse(condition) {
+    assertFalse(null, condition)
+  }
+  ...
+}
+```
+
+These functions have strong conceptual affinity because they share a common naming scheme and perform variations of the same task. The fact that they call each other is secondary. Even if they didn't, they would still want to be close together.
+
+### 5.2.5 Vertical ordering
+In general we want a function that is being called by another function to be directly under it. This creates a nice flow down the source code from high to low level.
+
+Just like in newspaper articles, we expect the most important concepts to come first, without polluting detail. We expect low-level details to come last. This allows us to skim source files, getting the gist from the first few functions without having to immerse ourselves in the details.
+
+## 5.3 Horizontal formatting
