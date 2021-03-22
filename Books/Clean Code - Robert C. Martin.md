@@ -47,6 +47,13 @@
       - [**Conceptual affinity**](#conceptual-affinity)
     - [5.2.5 Vertical ordering](#525-vertical-ordering)
   - [5.3 Horizontal formatting](#53-horizontal-formatting)
+    - [5.3.1 Horizontal openness and density](#531-horizontal-openness-and-density)
+    - [5.3.2 Horizontal alignment](#532-horizontal-alignment)
+    - [5.3.3 Indentation](#533-indentation)
+    - [5.3.4 Dummy scopes](#534-dummy-scopes)
+  - [5.4 Team rules](#54-team-rules)
+- [6 Objects and Data Structures](#6-objects-and-data-structures)
+  - [6.1 Data abstraction](#61-data-abstraction)
 
 # Introduction
 I started reading this book prior to creating this repo hence why there are missing chapters. I'm continuing where I left off and will fill in the gaps eventually.
@@ -530,3 +537,18 @@ In general we want a function that is being called by another function to be dir
 Just like in newspaper articles, we expect the most important concepts to come first, without polluting detail. We expect low-level details to come last. This allows us to skim source files, getting the gist from the first few functions without having to immerse ourselves in the details.
 
 ## 5.3 Horizontal formatting
+Uncle Bob set's his character limit per line to 120 characters. There is no general rule to follow, just make sure you're not trying to fill up the entire width of your 30 inch ultra-wide monitor.
+
+### 5.3.1 Horizontal openness and density
+
+### 5.3.2 Horizontal alignment
+
+### 5.3.3 Indentation
+
+### 5.3.4 Dummy scopes
+
+## 5.4 Team rules
+Every programmer has his own favorite formatting rules, but when in a team, the team rules. The code should be read as if everyone agreed on using the same formatting, not a bunch of individuals who disagree with each other.
+
+# 6 Objects and Data Structures
+## 6.1 Data abstraction
