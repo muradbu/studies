@@ -551,4 +551,56 @@ Uncle Bob set's his character limit per line to 120 characters. There is no gene
 Every programmer has his own favorite formatting rules, but when in a team, the team rules. The code should be read as if everyone agreed on using the same formatting, not a bunch of individuals who disagree with each other.
 
 # 6 Objects and Data Structures
+Why do we automatically add getters and setters to expose our private variables as if they were public?
+
 ## 6.1 Data abstraction
+Consider the following example. Both represent the data of a point on the Cartesian plane. And yet one exposes its implementation and the other completely hides it.
+
+```ts
+class Point {
+  x: number
+  y: number
+}
+```
+
+```ts
+interface Point {
+  getX(): number
+  getY(): number
+  setCartesian(x: number, y:number): void
+  getR(): number
+  getTheta(): number
+  setPolar(r: number, theta: number): void
+}
+```
+
+The good thing about the second example is that there is no way you can tell whether the implementation is in rectangular or polar coordinates. It's methods enforce an access policy: you can read the individual coordinates independently (by the getters) but you *must* set them both at the same time (`setCartesian()` or `setPolar()`).
+
+The first example is clearly implemented in rectangular (Cartesian) coordinates, and it forces us to manipulate those coordinates independently (it's a concrete class, not an abstraction). Even if the variables were private and we were using getters and setters the implementation would still be exposed.
+
+Hiding implementation is not just a matter of putting a layer of functions between the variables. Hiding implementation is about **abstractions**! A class exposes abstract interfaces that allow us to manipulate the *essence* of the data, without having to know its implementation.
+
+Consider the following examples.
+
+```ts
+// Concrete Vehicle
+
+interface Vehicle {
+  getFuelTankCapacityInGallons(): number
+  getGallonsOfGasoline(): number
+}
+```
+
+```ts
+// Abstract Vehicle
+
+interface Vehicle {
+  getPercentFuelRemaining(): number
+}
+```
+
+The first example uses concrete terms to communicate the fuel level of a vehicle. The second one does so with an abstraction of percentage. *In the concrete case you can be pretty sure that these are just accessors of variables. In the abstract case you have no clue at all about the form of the data.*
+
+According to uncle Bob the abstract option is preferable and we don't want to expose the detail of our data. We want to express our data in abstract terms. **This is not merely accomplished by using interfaces and/or getters and setters.** Serious thought needs to be put into the best way to represent the data that an object contains. The worst option is to blithely add getters and setters.
+
+## 6.2 Data/Object Anti-Symmetry
